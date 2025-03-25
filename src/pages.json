@@ -11,6 +11,12 @@
       "style": {
         "navigationBarTitleText": "classify"
       }
+    },
+    {
+      "path": "pages/user/user",
+      "style": {
+        "navigationBarTitleText": "user"
+      }
     }
   ],
   "globalStyle": {
@@ -18,5 +24,27 @@
     "navigationBarTitleText": "uni-app",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "推荐",
+        "iconPath": "static/home.png",
+        "selectedIconPath": "static/home-h.png"
+      },
+      {
+        "pagePath": "pages/classify/classify",
+        "text": "分类",
+        "iconPath": "static/classify.png",
+        "selectedIconPath": "static/classify-h.png"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "我的",
+        "iconPath": "static/user.png",
+        "selectedIconPath": "static/user-h.png"
+      }
+    ]
   }
 }
