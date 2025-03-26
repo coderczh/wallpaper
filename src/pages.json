@@ -21,11 +21,13 @@
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "uni-app",
-    "navigationBarBackgroundColor": "#F8F8F8",
+    "navigationBarTitleText": "壁纸",
+    "navigationBarBackgroundColor": "#fff",
     "backgroundColor": "#F8F8F8"
   },
   "tabBar": {
+    "color": "#9799a5",
+    "selectedColor": "#28b389",
     "list": [
       {
         "pagePath": "pages/index/index",

@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    WdDivider: typeof import('wot-design-uni/components/wd-divider/wd-divider.vue')['default']
     WdIcon: typeof import('wot-design-uni/components/wd-icon/wd-icon.vue')['default']
     WdImg: typeof import('wot-design-uni/components/wd-img/wd-img.vue')['default']
     WdNoticeBar: typeof import('wot-design-uni/components/wd-notice-bar/wd-notice-bar.vue')['default']
