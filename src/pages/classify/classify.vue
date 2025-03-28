@@ -1,6 +1,8 @@
 <template>
-  <view class="classify">
-    <common-item v-for="item in 15" />
+  <view class="global">
+    <view class="classify">
+      <common-item v-for="item in 15" />
+    </view>
   </view>
 </template>
 

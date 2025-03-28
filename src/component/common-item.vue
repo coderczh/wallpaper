@@ -1,6 +1,6 @@
 <template>
   <view class="box" v-if="!more">
-    <navigator url="">
+    <navigator url="/pages/classlist/classlist">
       <wd-img
         width="220rpx"
         height="340rpx"
@@ -14,7 +14,7 @@
   </view>
 
   <view class="box more" v-else>
-    <navigator url="">
+    <navigator url="/pages/classify/classify" open-type="reLaunch">
       <wd-img
         width="220rpx"
         height="340rpx"

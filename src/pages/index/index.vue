@@ -1,67 +1,69 @@
 <template>
-  <view class="home">
-    <!-- 轮播图 -->
-    <view class="banner">
-      <wd-swiper
-        :list="swiperList"
-        autoplay
-        :indicator="{ type: 'dots-bar' }"
-        class="swiper"
-      />
-    </view>
-    <!-- 公告 -->
-    <view class="notice">
-      <wd-notice-bar type="info" :text="textArray" @next="setTextIndex">
-        <template #prefix>
-          <view class="left"><wd-icon name="tips" size="15px" /></view>
-        </template>
-        <template #suffix>
-          <view class="right" @click="clickNotice"
-            ><wd-icon name="chevron-right" size="15px"
-          /></view>
-        </template>
-      </wd-notice-bar>
-    </view>
-    <!-- 每日推荐 -->
-    <view class="recommend">
-      <common-title>
-        <template #name>每日推荐</template>
-        <template #custom>
-          <view class="date">
-            <view class="calendar">
-              <wd-icon name="calendar" size="20px" color="#28b389" />
-            </view>
-            <view class="text">
-              <wd-text :text="currentDate" color="#28b389" size="28rpx" />
-            </view>
-          </view>
-        </template>
-      </common-title>
-      <view class="content">
-        <scroll-view scroll-x class="scroll-view">
-          <view class="box" v-for="item in 8">
-            <image
-              src="https://uniapp-1258823864.cos.ap-shanghai.myqcloud.com/wallpaper%2Fwallpaper%2Fpreview_small.webp"
-              mode="scaleToFill"
-              class="image"
-            />
-          </view>
-        </scroll-view>
+  <view class="global">
+    <view class="home">
+      <!-- 轮播图 -->
+      <view class="banner">
+        <wd-swiper
+          :list="swiperList"
+          autoplay
+          :indicator="{ type: 'dots-bar' }"
+          class="swiper"
+        />
       </view>
-    </view>
-    <!-- 专题精选 -->
-    <view class="theme">
-      <common-title>
-        <template #name>专题精选</template>
-        <template #custom>
-          <view class="navigator">
-            <navigator url="">More+</navigator>
-          </view>
-        </template>
-      </common-title>
-      <view class="content">
-        <common-item v-for="item in 8" />
-        <common-item :more="true" />
+      <!-- 公告 -->
+      <view class="notice">
+        <wd-notice-bar type="info" :text="textArray" @next="setTextIndex">
+          <template #prefix>
+            <view class="left"><wd-icon name="tips" size="15px" /></view>
+          </template>
+          <template #suffix>
+            <view class="right" @click="clickNotice"
+              ><wd-icon name="chevron-right" size="15px"
+            /></view>
+          </template>
+        </wd-notice-bar>
+      </view>
+      <!-- 每日推荐 -->
+      <view class="recommend">
+        <common-title>
+          <template #name>每日推荐</template>
+          <template #custom>
+            <view class="date">
+              <view class="calendar">
+                <wd-icon name="calendar" size="20px" color="#28b389" />
+              </view>
+              <view class="text">
+                <wd-text :text="currentDate" color="#28b389" size="28rpx" />
+              </view>
+            </view>
+          </template>
+        </common-title>
+        <view class="content">
+          <scroll-view scroll-x class="scroll-view">
+            <view class="box" v-for="item in 8">
+              <image
+                src="https://uniapp-1258823864.cos.ap-shanghai.myqcloud.com/wallpaper%2Fwallpaper%2Fpreview_small.webp"
+                mode="scaleToFill"
+                class="image"
+              />
+            </view>
+          </scroll-view>
+        </view>
+      </view>
+      <!-- 专题精选 -->
+      <view class="theme">
+        <common-title>
+          <template #name>专题精选</template>
+          <template #custom>
+            <view class="navigator">
+              <navigator url="">More+</navigator>
+            </view>
+          </template>
+        </common-title>
+        <view class="content">
+          <common-item v-for="item in 8" />
+          <common-item :more="true" />
+        </view>
       </view>
     </view>
   </view>
@@ -100,8 +102,6 @@ const currentDate = ref(
 </script>
 
 <style lang="scss" scoped>
-@import "@/common/style/common.scss";
-
 .home {
   width: 750rpx;
   .banner {
