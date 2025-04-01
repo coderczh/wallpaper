@@ -11,6 +11,7 @@ declare module 'vue' {
     WdIcon: typeof import('wot-design-uni/components/wd-icon/wd-icon.vue')['default']
     WdImg: typeof import('wot-design-uni/components/wd-img/wd-img.vue')['default']
     WdNoticeBar: typeof import('wot-design-uni/components/wd-notice-bar/wd-notice-bar.vue')['default']
+    WdPopup: typeof import('wot-design-uni/components/wd-popup/wd-popup.vue')['default']
     WdSwiper: typeof import('wot-design-uni/components/wd-swiper/wd-swiper.vue')['default']
     WdText: typeof import('wot-design-uni/components/wd-text/wd-text.vue')['default']
   }

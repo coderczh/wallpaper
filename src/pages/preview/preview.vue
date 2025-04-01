@@ -6,23 +6,28 @@
         autoplay
         :indicator="{ type: 'dots-bar' }"
         :height="pageHeight"
+        @click="maskChange"
       />
     </view>
-    <view class="mask">
+    <view class="mask" v-if="maskStatus">
       <view class="go-back"></view>
       <view class="count">
         <wd-text text="3 / 9" color="#fff" size="28rpx" />
       </view>
       <view class="date"
-        ><wd-text text="2025-04-01" color="#fff" size="34rpx"
+        ><wd-text :text="currentDate" color="#fff" size="34rpx"
       /></view>
       <view class="time"
-        ><wd-text text="10:10" color="#fff" size="140rpx" lineHeight="1em"
+        ><wd-text
+          :text="currentTime"
+          color="#fff"
+          size="140rpx"
+          lineHeight="1em"
       /></view>
       <view class="footer">
-        <view class="box">
+        <view class="box" @click="showPopup">
           <view class="inco">
-            <wd-icon name="info-circle" size="22px" />
+            <wd-icon name="info-circle" size="33rpx" />
           </view>
           <view class="text"
             ><wd-text text="信息" color="#676767" size="26rpx"
@@ -30,7 +35,7 @@
         </view>
         <view class="box">
           <view class="inco">
-            <wd-icon name="star" size="22px" />
+            <wd-icon name="star" size="33rpx" />
           </view>
           <view class="text"
             ><wd-text text="5分" color="#676767" size="26rpx"
@@ -38,13 +43,41 @@
         </view>
         <view class="box">
           <view class="inco">
-            <wd-icon name="download1" size="22px" />
+            <wd-icon name="download1" size="33rpx" />
           </view>
           <view class="text"
             ><wd-text text="下载" color="#676767" size="26rpx"
           /></view>
         </view>
       </view>
+    </view>
+    <view class="popup">
+      <wd-popup
+        v-model="popupStatus"
+        position="bottom"
+        custom-style="height: 200px;"
+      >
+        <view class="info-popup">
+          <view class="header">
+            <view></view>
+            <view class="title"
+              ><wd-text color="#676767" text="壁纸信息" size="26rpx"
+            /></view>
+            <view class="close"
+              ><wd-icon name="close" size="30rpx" color="#999"
+            /></view>
+          </view>
+          <view class="content">
+            <scroll-view scroll-y>
+              <view class="info">
+                <view class="row" v-for="item in 10">
+                  {{ item }}
+                </view>
+              </view>
+            </scroll-view>
+          </view>
+        </view>
+      </wd-popup>
     </view>
   </view>
 </template>
@@ -64,6 +97,30 @@ onMounted(() => {
   const systemInfo = uni.getSystemInfoSync();
   pageHeight.value = systemInfo.windowHeight;
 });
+
+const maskStatus = ref<boolean>(true);
+const maskChange = () => {
+  maskStatus.value = !maskStatus.value;
+};
+
+const date = ref<Date>(new Date());
+const currentDate = ref<string>(
+  `${date.value.getFullYear()}-${(date.value.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}-${date.value.getDate().toString().padStart(2, "0")}`
+);
+
+const currentTime = ref<string>(
+  `${date.value.getHours().toString().padStart(2, "0")}:${date.value
+    .getMinutes()
+    .toString()
+    .padStart(2, "0")}`
+);
+
+const popupStatus = ref<boolean>(false);
+const showPopup = () => {
+  popupStatus.value = !popupStatus.value;
+};
 </script>
 
 <style lang="scss" scoped>
@@ -114,6 +171,18 @@ onMounted(() => {
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        padding: 2rpx 12rpx;
+      }
+    }
+  }
+  .info-popup {
+    .header {
+      padding-top: 10rpx;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .close {
+        padding: 6rpx;
       }
     }
   }
