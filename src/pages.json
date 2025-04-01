@@ -1,61 +1,69 @@
 {
-	"pages": [
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "uni-app",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/classify/classify",
-			"style": {
-				"navigationBarTitleText": "classify",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/user/user",
-			"style": {
-				"navigationBarTitleText": "user",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/classlist/classlist",
-			"style": {
-				"navigationBarTitleText": "classlist"
-			}
-		}
-	],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "壁纸",
-		"navigationBarBackgroundColor": "#fff",
-		"backgroundColor": "#F8F8F8"
-	},
-	"tabBar": {
-		"color": "#9799a5",
-		"selectedColor": "#28b389",
-		"list": [
-			{
-				"pagePath": "pages/index/index",
-				"text": "推荐",
-				"iconPath": "static/home.png",
-				"selectedIconPath": "static/home-h.png"
-			},
-			{
-				"pagePath": "pages/classify/classify",
-				"text": "分类",
-				"iconPath": "static/classify.png",
-				"selectedIconPath": "static/classify-h.png"
-			},
-			{
-				"pagePath": "pages/user/user",
-				"text": "我的",
-				"iconPath": "static/user.png",
-				"selectedIconPath": "static/user-h.png"
-			}
-		]
-	}
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "uni-app",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/classify/classify",
+      "style": {
+        "navigationBarTitleText": "classify",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/user/user",
+      "style": {
+        "navigationBarTitleText": "user",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/classlist/classlist",
+      "style": {
+        "navigationBarTitleText": "classlist",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/preview/preview",
+      "style": {
+        "navigationBarTitleText": "preview",
+        "navigationStyle": "custom"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "壁纸",
+    "navigationBarBackgroundColor": "#fff",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#9799a5",
+    "selectedColor": "#28b389",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "推荐",
+        "iconPath": "static/home.png",
+        "selectedIconPath": "static/home-h.png"
+      },
+      {
+        "pagePath": "pages/classify/classify",
+        "text": "分类",
+        "iconPath": "static/classify.png",
+        "selectedIconPath": "static/classify-h.png"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "我的",
+        "iconPath": "static/user.png",
+        "selectedIconPath": "static/user-h.png"
+      }
+    ]
+  }
 }
