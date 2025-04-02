@@ -33,7 +33,7 @@
             ><wd-text text="信息" color="#676767" size="26rpx"
           /></view>
         </view>
-        <view class="box">
+        <view class="box" @click="showRate">
           <view class="inco">
             <wd-icon name="star" size="33rpx" />
           </view>
@@ -60,7 +60,7 @@
       >
         <view class="info-popup">
           <view class="header">
-            <wd-text color="#676767" text="壁纸信息" size="26rpx" />
+            <wd-text color="#676767" text="壁纸信息" size="30rpx" />
           </view>
           <view class="content">
             <view class="row">
@@ -177,6 +177,28 @@
         </view>
       </wd-popup>
     </view>
+    <wd-popup v-model="rateStatus" closable custom-class="rate-popup">
+      <wd-text
+        color="#676767"
+        text="壁纸评分"
+        size="30rpx"
+        custom-class="rate-text"
+      />
+      <view class="rate-content">
+        <wd-rate v-model="score" allow-half />
+        <wd-text
+          :text="`${score}分`"
+          color="#ffca3e"
+          lineHeight="1em"
+          custom-style="padding-left: 10rpx; width: 80rpx; text-align: right"
+        />
+      </view>
+      <view class="rate-footer">
+        <wd-button :disabled="!score" type="warning" plain @click="submitRate"
+          ><wd-text text="确认评分"
+        /></wd-button>
+      </view>
+    </wd-popup>
   </view>
 </template>
 
@@ -220,7 +242,17 @@ const showPopup = () => {
   popupStatus.value = !popupStatus.value;
 };
 
+const rateStatus = ref<boolean>(false);
+const showRate = () => {
+  rateStatus.value = !rateStatus.value;
+};
+
 const rate = ref<number>(3);
+
+const score = ref<number>(0);
+const submitRate = () => {
+  console.log(score.value);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -312,8 +344,32 @@ const rate = ref<number>(3);
       }
     }
   }
+
+  .rate-content {
+    padding: 30rpx 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .rate-footer {
+    text-align: center;
+    padding: 20rpx 0;
+  }
 }
 :deep(.tag) {
   margin-right: 10rpx;
+}
+
+:deep(.rate-popup) {
+  width: 70vw;
+  border-radius: 30rpx;
+}
+
+:deep(.rate-text) {
+  margin-top: 17rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
