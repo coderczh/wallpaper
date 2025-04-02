@@ -55,26 +55,124 @@
       <wd-popup
         v-model="popupStatus"
         position="bottom"
-        custom-style="height: 200px;"
+        closable
+        custom-style="max-height: 60vh;"
       >
         <view class="info-popup">
           <view class="header">
-            <view></view>
-            <view class="title"
-              ><wd-text color="#676767" text="壁纸信息" size="26rpx"
-            /></view>
-            <view class="close"
-              ><wd-icon name="close" size="30rpx" color="#999"
-            /></view>
+            <wd-text color="#676767" text="壁纸信息" size="26rpx" />
           </view>
           <view class="content">
-            <scroll-view scroll-y>
-              <view class="info">
-                <view class="row" v-for="item in 10">
-                  {{ item }}
+            <view class="row">
+              <view class="label"
+                ><wd-text
+                  text="壁纸ID："
+                  size="28rpx"
+                  lineHeight="1.7em"
+                  color="#a7a7a7"
+              /></view>
+              <view class="value"
+                ><wd-text
+                  text="dadadadasdasdde"
+                  size="28rpx"
+                  color="#676767"
+                  lineHeight="1.7em"
+              /></view>
+            </view>
+            <view class="row">
+              <view class="label"
+                ><wd-text
+                  text="分类："
+                  size="28rpx"
+                  lineHeight="1.7em"
+                  color="#a7a7a7"
+              /></view>
+              <view class="value"
+                ><wd-text
+                  text="明星美女"
+                  color="#676767"
+                  size="28rpx"
+                  lineHeight="1.7em"
+              /></view>
+            </view>
+            <view class="row"
+              ><view class="label"
+                ><wd-text
+                  text="发布者："
+                  size="28rpx"
+                  lineHeight="1.7em"
+                  color="#a7a7a7"
+              /></view>
+              <view class="value"
+                ><wd-text
+                  text="天天向上"
+                  size="28rpx"
+                  color="#676767"
+                  lineHeight="1.7em" /></view
+            ></view>
+            <view class="row"
+              ><view class="label"
+                ><wd-text
+                  text="评分："
+                  size="28rpx"
+                  lineHeight="1.7em"
+                  color="#a7a7a7"
+              /></view>
+              <view class="value rate-box">
+                <view class="rate">
+                  <wd-rate v-model="rate" readonly allow-half />
                 </view>
+                <view class="score"
+                  ><wd-text
+                    text="5分"
+                    color="#676767"
+                    size="27rpx"
+                    lineHeight="1.8em"
+                /></view> </view
+            ></view>
+            <view class="row"
+              ><view class="label"
+                ><wd-text
+                  text="摘要："
+                  size="28rpx"
+                  lineHeight="1.7em"
+                  color="#a7a7a7"
+              /></view>
+              <view class="value"
+                ><wd-text
+                  text="摘要文字填充内容，摘要文字填充内容，摘要文字填充内容，摘要文字填充内容"
+                  size="28rpx"
+                  color="#676767"
+                  lineHeight="1.7em" /></view
+            ></view>
+            <view class="row"
+              ><view class="label"
+                ><wd-text
+                  text="标签："
+                  size="28rpx"
+                  lineHeight="1.7em"
+                  color="#a7a7a7"
+              /></view>
+              <view class="value">
+                <wd-tag
+                  mark
+                  type="success"
+                  custom-class="tag"
+                  plain
+                  v-for="item in 3"
+                >
+                  <wd-text text="标签" color="#28b389" />
+                </wd-tag>
               </view>
-            </scroll-view>
+            </view>
+            <view class="copyright">
+              <wd-text
+                text="声明：本图片来用户投稿，非商业使用，用于免费学习交流，如侵犯您的权益，您可以拷贝壁纸ID举报至平台，管理将删除侵权壁纸，维护您的权益"
+                size="28rpx"
+                color="#666"
+                lineHeight="1.6em"
+              />
+            </view>
           </view>
         </view>
       </wd-popup>
@@ -121,6 +219,8 @@ const popupStatus = ref<boolean>(false);
 const showPopup = () => {
   popupStatus.value = !popupStatus.value;
 };
+
+const rate = ref<number>(3);
 </script>
 
 <style lang="scss" scoped>
@@ -177,14 +277,43 @@ const showPopup = () => {
   }
   .info-popup {
     .header {
-      padding-top: 10rpx;
+      margin-top: 20rpx;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      .close {
-        padding: 6rpx;
+    }
+    .content {
+      .row {
+        display: flex;
+        padding: 16rpx 0;
+        .label {
+          width: 140rpx;
+          text-align: right;
+        }
+        .value {
+          flex: 1;
+          width: 0;
+          user-select: text;
+          -webkit-user-select: text;
+          -webkit-touch-callout: default;
+        }
+        .rate-box {
+          display: flex;
+          .score {
+            margin-left: 20rpx;
+          }
+        }
+      }
+      .copyright {
+        background-color: #f6f6f6;
+        border-radius: 10rpx;
+        padding: 20rpx;
+        margin: 20rpx 20rpx;
       }
     }
   }
+}
+:deep(.tag) {
+  margin-right: 10rpx;
 }
 </style>
