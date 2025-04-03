@@ -1,5 +1,6 @@
 <template>
   <view class="global">
+    <common-nav-bar />
     <view class="home">
       <!-- 轮播图 -->
       <view class="banner">
@@ -73,6 +74,7 @@
 import { ref } from "vue";
 import CommonTitle from "@/component/common-title.vue";
 import CommonItem from "@/component/common-item.vue";
+import commonNavBar from "@/component/common-nav-bar.vue";
 
 const swiperList = ref<string[]>([
   "https://uniapp-1258823864.cos.ap-shanghai.myqcloud.com/wallpaper%2Fwallpaper%2Fbanner1.jpg",

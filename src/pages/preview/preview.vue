@@ -194,8 +194,8 @@
         />
       </view>
       <view class="rate-footer">
-        <wd-button :disabled="!score" type="warning" plain @click="submitRate"
-          ><wd-text text="确认评分"
+        <wd-button :disabled="!score" plain @click="submitRate" type="info"
+          ><wd-text text="确认评分" color="#3d3b3b"
         /></wd-button>
       </view>
     </wd-popup>
