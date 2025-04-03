@@ -19,7 +19,7 @@
         </view>
       </view>
     </view>
-    <view class="fill"></view>
+    <view class="fill" :style="{ height: `${fillHeight}px` }"></view>
   </view>
 </template>
 
@@ -34,6 +34,8 @@ const titleBarHeight = computed(() => {
   const { top, height } = uni.getMenuButtonBoundingClientRect();
   return height + (top - statusBarHeight.value) * 2;
 });
+
+const fillHeight = computed(() => titleBarHeight.value + statusBarHeight.value);
 </script>
 
 <style lang="scss" scoped>
@@ -42,10 +44,10 @@ const titleBarHeight = computed(() => {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vh;
+    width: 100%;
     z-index: 10;
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0), #fff 400rpx),
-      linear-gradient(to right, #beecd8, #f4e2d8);
+      linear-gradient(to right, #beecd8 20%, #f4e2d8);
     .status-bar {
     }
     .title-bar {
