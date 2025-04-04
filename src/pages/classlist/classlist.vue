@@ -2,7 +2,7 @@
   <view class="class-list">
     <view class="content">
       <view class="item" v-for="item in 10">
-        <navigator url="">
+        <navigator url="/pages/preview/preview">
           <wd-img
             width="242rpx"
             height="440rpx"

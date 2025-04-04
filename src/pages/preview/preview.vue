@@ -10,7 +10,13 @@
       />
     </view>
     <view class="mask" v-if="maskStatus">
-      <view class="go-back"></view>
+      <view
+        class="go-back"
+        :style="{ top: `${statusBarHeight}px` }"
+        @click="goBack"
+      >
+        <wd-icon name="rollback" color="#fff" size="35rpx" />
+      </view>
       <view class="count">
         <wd-text text="3 / 9" color="#fff" size="28rpx" />
       </view>
@@ -203,7 +209,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 
 const swiperList = ref<string[]>([
   "https://uniapp-1258823864.cos.ap-shanghai.myqcloud.com/wallpaper/wallpaper/preview1.jpg",
@@ -253,6 +259,12 @@ const score = ref<number>(0);
 const submitRate = () => {
   console.log(score.value);
 };
+
+const statusBarHeight = computed(
+  () => uni.getSystemInfoSync().statusBarHeight || 0
+);
+
+const goBack = () => uni.navigateBack();
 </script>
 
 <style lang="scss" scoped>
@@ -271,6 +283,18 @@ const submitRate = () => {
       width: fit-content;
     }
     .go-back {
+      width: 64rpx;
+      height: 64rpx;
+      background-color: rgba(0, 0, 0, 0.5);
+      left: 60rpx;
+      margin-left: 0;
+      border-radius: 200rpx;
+      top: 0;
+      backdrop-filter: blur(10rpx);
+      border: 1rpx solid rgba(255, 255, 255, 0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     .count {
       top: 10vh;

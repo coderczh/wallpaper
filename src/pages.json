@@ -24,8 +24,7 @@
     {
       "path": "pages/classlist/classlist",
       "style": {
-        "navigationBarTitleText": "classlist",
-        "navigationStyle": "custom"
+        "navigationBarTitleText": "列表"
       }
     },
     {
@@ -33,6 +32,12 @@
       "style": {
         "navigationBarTitleText": "preview",
         "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/notice/notice",
+      "style": {
+        "navigationBarTitleText": "公告"
       }
     }
   ],

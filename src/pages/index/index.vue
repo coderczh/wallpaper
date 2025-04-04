@@ -1,6 +1,6 @@
 <template>
   <view class="global">
-    <common-nav-bar />
+    <common-nav-bar title="推荐" />
     <view class="home">
       <!-- 轮播图 -->
       <view class="banner">
@@ -41,7 +41,7 @@
         </common-title>
         <view class="content">
           <scroll-view scroll-x class="scroll-view">
-            <view class="box" v-for="item in 8">
+            <view class="box" v-for="item in 8" @click="goPreview">
               <image
                 src="https://uniapp-1258823864.cos.ap-shanghai.myqcloud.com/wallpaper%2Fwallpaper%2Fpreview_small.webp"
                 mode="scaleToFill"
@@ -71,16 +71,27 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import CommonTitle from "@/component/common-title.vue";
 import CommonItem from "@/component/common-item.vue";
 import commonNavBar from "@/component/common-nav-bar.vue";
 
-const swiperList = ref<string[]>([
-  "https://uniapp-1258823864.cos.ap-shanghai.myqcloud.com/wallpaper%2Fwallpaper%2Fbanner1.jpg",
-  "https://uniapp-1258823864.cos.ap-shanghai.myqcloud.com/wallpaper%2Fwallpaper%2Fbanner2.jpg",
-  "https://uniapp-1258823864.cos.ap-shanghai.myqcloud.com/wallpaper%2Fwallpaper%2Fbanner3.jpg",
-]);
+onMounted(() => {
+  getSwiperList();
+});
+
+const swiperList = ref<string[]>([]);
+const getSwiperList = async () => {
+  const res: any = await uni.request({
+    url: "https://tea.qingnian8.com/api/bizhi/homeBanner",
+    header: {
+      "access-key": "785591",
+    },
+  });
+  if (res.data.errCode == 0) {
+    swiperList.value = res.data.data.map((item: any) => item.picurl);
+  }
+};
 
 const textArray = ref<string[]>([
   "欢迎使用wot design uni",
@@ -96,11 +107,13 @@ const setTextIndex = (index: number) => {
   textIndex.value = index;
 };
 
-const clickNotice = () => console.log(textArray.value[textIndex.value]);
+const clickNotice = () => uni.navigateTo({ url: "/pages/notice/notice" });
 
 const currentDate = ref(
   new Date().getDate().toString().padStart(2, "0") + "号"
 );
+
+const goPreview = () => uni.navigateTo({ url: "/pages/preview/preview" });
 </script>
 
 <style lang="scss" scoped>

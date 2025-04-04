@@ -7,7 +7,7 @@
       ></view>
       <view class="title-bar" :style="{ height: `${titleBarHeight}px` }">
         <view class="title"
-          ><wd-text text="标题" size="35rpx" color="#000" bold
+          ><wd-text :text="title" size="35rpx" color="#000" bold
         /></view>
         <view class="search">
           <view class="icon">
@@ -36,6 +36,13 @@ const titleBarHeight = computed(() => {
 });
 
 const fillHeight = computed(() => titleBarHeight.value + statusBarHeight.value);
+
+withDefaults(
+  defineProps<{
+    title: string;
+  }>(),
+  { title: "壁纸" }
+);
 </script>
 
 <style lang="scss" scoped>
