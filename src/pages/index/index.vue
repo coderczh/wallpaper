@@ -3,7 +3,7 @@
     <common-nav-bar title="推荐" />
     <view class="home">
       <!-- 轮播图 -->
-      <view class="banner">
+      <view class="banner" v-if="swiperList.length > 0">
         <wd-swiper
           :list="swiperList"
           autoplay
@@ -13,7 +13,7 @@
       </view>
       <!-- 公告 -->
       <view class="notice">
-        <wd-notice-bar type="info" :text="textArray" @next="setTextIndex">
+        <wd-notice-bar type="info" :text="noticeList" @next="setTextIndex">
           <template #prefix>
             <view class="left"><wd-icon name="tips" size="15px" /></view>
           </template>
@@ -41,9 +41,14 @@
         </common-title>
         <view class="content">
           <scroll-view scroll-x class="scroll-view">
-            <view class="box" v-for="item in 8" @click="goPreview">
+            <view
+              class="box"
+              v-for="scroll in scrollList"
+              :key="scroll._id"
+              @click="goPreview"
+            >
               <image
-                src="https://uniapp-1258823864.cos.ap-shanghai.myqcloud.com/wallpaper%2Fwallpaper%2Fpreview_small.webp"
+                :src="scroll.smallPicurl"
                 mode="scaleToFill"
                 class="image"
               />
@@ -78,6 +83,8 @@ import commonNavBar from "@/component/common-nav-bar.vue";
 
 onMounted(() => {
   getSwiperList();
+  getScrollList();
+  getNoticeList();
 });
 
 const swiperList = ref<string[]>([]);
@@ -85,11 +92,39 @@ const getSwiperList = async () => {
   const res: any = await uni.request({
     url: "https://tea.qingnian8.com/api/bizhi/homeBanner",
     header: {
-      "access-key": "785591",
+      "access-key": "charles5188",
     },
   });
   if (res.data.errCode == 0) {
     swiperList.value = res.data.data.map((item: any) => item.picurl);
+  }
+};
+const scrollList = ref<any[]>([]);
+const getScrollList = async () => {
+  const res: any = await uni.request({
+    url: "https://tea.qingnian8.com/api/bizhi/randomWall",
+    header: {
+      "access-key": "charles5188",
+    },
+  });
+  if (res.data.errCode == 0) {
+    scrollList.value = res.data.data;
+  }
+};
+
+const noticeList = ref<string[]>([]);
+const getNoticeList = async () => {
+  const res: any = await uni.request({
+    url: "https://tea.qingnian8.com/api/bizhi/wallNewsList",
+    header: {
+      "access-key": "charles5188",
+    },
+    data: {
+      select: true,
+    },
+  });
+  if (res.data.errCode == 0) {
+    noticeList.value = res.data.data.map((item: any) => item.title);
   }
 };
 
