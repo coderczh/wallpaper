@@ -4,12 +4,12 @@
       <wd-img
         width="220rpx"
         height="340rpx"
-        src="https://uniapp-1258823864.cos.ap-shanghai.myqcloud.com/wallpaper%2Fwallpaper%2Fclassify1.jpg"
+        :src="classify.picUrl"
         mode="aspectFill"
         radius="10rpx"
       />
-      <view class="mask">明星美女</view>
-      <view class="tab">3先前更新</view>
+      <view class="mask">{{ classify.name }}</view>
+      <view class="tab">{{ classify.updateTime }} 天前更新</view>
     </navigator>
   </view>
 
@@ -18,7 +18,7 @@
       <wd-img
         width="220rpx"
         height="340rpx"
-        src="https://uniapp-1258823864.cos.ap-shanghai.myqcloud.com/wallpaper%2Fwallpaper%2Fmore.jpg"
+        src="https://uniapp-1258823864.cos.ap-shanghai.myqcloud.com/wallpaper/wallpaper/more.jpg"
         mode="aspectFill"
         radius="10rpx"
       />
@@ -34,8 +34,21 @@
 const props = withDefaults(
   defineProps<{
     more: boolean;
+    classify: {
+      name: string;
+      picUrl: string;
+      updateTime: number;
+    };
   }>(),
-  { more: false }
+  {
+    more: false,
+    classify: () => ({
+      name: "默认全部",
+      picUrl:
+        "https://uniapp-1258823864.cos.ap-shanghai.myqcloud.com/wallpaper/wallpaper/classify1.jpg",
+      updateTime: Date.now() - 1000 * 60 * 60 * 5,
+    }),
+  }
 );
 </script>
 

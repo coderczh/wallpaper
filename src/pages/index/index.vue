@@ -67,7 +67,11 @@
           </template>
         </common-title>
         <view class="content">
-          <common-item v-for="item in 8" />
+          <common-item
+            v-for="classify in classifyList"
+            :key="classify._id"
+            :classify="classify"
+          />
           <common-item :more="true" />
         </view>
       </view>
@@ -80,62 +84,47 @@ import { onMounted, ref } from "vue";
 import CommonTitle from "@/component/common-title.vue";
 import CommonItem from "@/component/common-item.vue";
 import commonNavBar from "@/component/common-nav-bar.vue";
+import {
+  classifyListApi,
+  noticeListApi,
+  scrollListApi,
+  swiperListApi,
+} from "@/api/index";
 
 onMounted(() => {
   getSwiperList();
   getScrollList();
   getNoticeList();
+  getClassifyList();
 });
 
 const swiperList = ref<string[]>([]);
 const getSwiperList = async () => {
-  const res: any = await uni.request({
-    url: "https://tea.qingnian8.com/api/bizhi/homeBanner",
-    header: {
-      "access-key": "charles5188",
-    },
-  });
-  if (res.data.errCode == 0) {
-    swiperList.value = res.data.data.map((item: any) => item.picurl);
-  }
+  const res: any = await swiperListApi();
+  swiperList.value = res.data.data.map((item: any) => item.picurl);
 };
+
 const scrollList = ref<any[]>([]);
 const getScrollList = async () => {
-  const res: any = await uni.request({
-    url: "https://tea.qingnian8.com/api/bizhi/randomWall",
-    header: {
-      "access-key": "charles5188",
-    },
-  });
-  if (res.data.errCode == 0) {
-    scrollList.value = res.data.data;
-  }
+  const res: any = await scrollListApi();
+  scrollList.value = res.data.data;
 };
 
 const noticeList = ref<string[]>([]);
 const getNoticeList = async () => {
-  const res: any = await uni.request({
-    url: "https://tea.qingnian8.com/api/bizhi/wallNewsList",
-    header: {
-      "access-key": "charles5188",
-    },
-    data: {
-      select: true,
-    },
-  });
-  if (res.data.errCode == 0) {
-    noticeList.value = res.data.data.map((item: any) => item.title);
-  }
+  const res: any = await noticeListApi();
+  noticeList.value = res.data.data.map((item: any) => item.title);
 };
 
-const textArray = ref<string[]>([
-  "欢迎使用wot design uni",
-  "该组件库基于uniapp ->Vue3, ts构建",
-  "项目地址：https://github.com/Moonofweisheng/wot-design-uni",
-  "我们的目标是打造最强uniapp组件库",
-  "诚挚邀请大家共同建设",
-  "这是一条消息提示信息，这是一条消息提示信息，这是一条消息提示信息，这是一条消息提示信息，这是一条消息提示信息",
-]);
+const classifyList = ref<any[]>([]);
+const getClassifyList = async () => {
+  const res: any = await classifyListApi();
+  classifyList.value = res.data.data.map((item: any) => ({
+    name: item.name,
+    picUrl: item.picurl,
+    updateTime: parseInt(String((Date.now() - item.updateTime) / 86400000)),
+  }));
+};
 
 const textIndex = ref(0);
 const setTextIndex = (index: number) => {
