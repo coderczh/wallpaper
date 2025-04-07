@@ -220,7 +220,7 @@ const swiperList = ref<string[]>([
 // 获取系统信息中的窗口高度
 const pageHeight = ref<number>(0);
 onMounted(() => {
-  const systemInfo = uni.getSystemInfoSync();
+  const systemInfo = uni.getWindowInfo();
   pageHeight.value = systemInfo.windowHeight;
 });
 
@@ -261,7 +261,7 @@ const submitRate = () => {
 };
 
 const statusBarHeight = computed(
-  () => uni.getSystemInfoSync().statusBarHeight || 0
+  () => uni.getWindowInfo().statusBarHeight || 0
 );
 
 const goBack = () => uni.navigateBack();

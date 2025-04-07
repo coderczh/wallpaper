@@ -27,7 +27,7 @@
 import { computed, ref } from "vue";
 
 const statusBarHeight = computed(
-  () => uni.getSystemInfoSync().statusBarHeight || 0
+  () => uni.getWindowInfo().statusBarHeight || 0
 );
 
 const titleBarHeight = computed(() => {
@@ -55,8 +55,6 @@ withDefaults(
     z-index: 10;
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0), #fff 400rpx),
       linear-gradient(to right, #beecd8 20%, #f4e2d8);
-    .status-bar {
-    }
     .title-bar {
       display: flex;
       justify-content: left;
@@ -80,8 +78,6 @@ withDefaults(
         }
       }
     }
-  }
-  .fill {
   }
 }
 </style>
