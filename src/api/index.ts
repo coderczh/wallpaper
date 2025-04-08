@@ -13,10 +13,22 @@ const noticeListApi = () =>
     },
   });
 
-const classifyListApi = () =>
+const classifyListApi = (pageSize?: number) =>
   request({
     url: "/classify",
-    data: { pageSize: 8 },
+    data: { pageSize: pageSize ?? 8 },
   });
 
-export { swiperListApi, scrollListApi, noticeListApi, classifyListApi };
+const classListApi = (classid: string, pageNum: number, pageSize: number) =>
+  request({
+    url: "/wallList",
+    data: { classid },
+  });
+
+export {
+  swiperListApi,
+  scrollListApi,
+  noticeListApi,
+  classifyListApi,
+  classListApi,
+};

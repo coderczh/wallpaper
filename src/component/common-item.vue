@@ -1,6 +1,8 @@
 <template>
   <view class="box" v-if="!more">
-    <navigator url="/pages/classlist/classlist">
+    <navigator
+      :url="`/pages/classlist/classlist?classId=${classify.classId}&name=${classify.name}`"
+    >
       <wd-img
         width="220rpx"
         height="340rpx"
@@ -9,7 +11,9 @@
         radius="10rpx"
       />
       <view class="mask">{{ classify.name }}</view>
-      <view class="tab">{{ classify.updateTime }} 天前更新</view>
+      <view class="tab">{{
+        updateTime === null ? "刚刚更新" : `${updateTime}前更新`
+      }}</view>
     </navigator>
   </view>
 
@@ -31,10 +35,14 @@
 </template>
 
 <script lang="ts" setup>
+import { formatTimeDiff } from "@/common/util/date";
+import { computed } from "vue";
+
 const props = withDefaults(
   defineProps<{
     more: boolean;
     classify: {
+      classId: string;
       name: string;
       picUrl: string;
       updateTime: number;
@@ -43,6 +51,7 @@ const props = withDefaults(
   {
     more: false,
     classify: () => ({
+      classId: "",
       name: "默认全部",
       picUrl:
         "https://uniapp-1258823864.cos.ap-shanghai.myqcloud.com/wallpaper/wallpaper/classify1.jpg",
@@ -50,6 +59,8 @@ const props = withDefaults(
     }),
   }
 );
+
+const updateTime = computed(() => formatTimeDiff(props.classify.updateTime));
 </script>
 
 <style lang="scss" scoped>

@@ -1,12 +1,12 @@
 <template>
   <view class="class-list">
     <view class="content">
-      <view class="item" v-for="item in 10">
+      <view class="item" v-for="classItem in classList" :key="classItem._id">
         <navigator url="/pages/preview/preview">
           <wd-img
             width="242rpx"
             height="440rpx"
-            src="https://uniapp-1258823864.cos.ap-shanghai.myqcloud.com/wallpaper/wallpaper/preview2.jpg"
+            :src="classItem.smallPicurl"
             mode="aspectFill"
             custom-class="img"
           />
@@ -16,7 +16,37 @@
   </view>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { classListApi } from "@/api";
+import { onLoad, onReachBottom } from "@dcloudio/uni-app";
+import { ref } from "vue";
+
+let pageNum = 1;
+let classId = "";
+const pageSize = 12;
+onLoad((e) => {
+  uni.setNavigationBarTitle({
+    title: e!.name,
+  });
+  classId = e!.classId;
+  getClassList(classId, pageNum, pageSize);
+});
+
+onReachBottom(() => {
+  getClassList(classId, pageNum, pageSize);
+});
+
+const classList = ref<any[]>([]);
+const getClassList = async (
+  classId: string,
+  pageNum: number,
+  pageSize: number
+) => {
+  const res: any = await classListApi(classId, pageNum, pageSize);
+  classList.value = [...classList.value, ...res.data.data];
+  console.log(res);
+};
+</script>
 
 <style lang="scss" scoped>
 .class-list {

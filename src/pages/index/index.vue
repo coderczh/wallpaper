@@ -120,9 +120,10 @@ const classifyList = ref<any[]>([]);
 const getClassifyList = async () => {
   const res: any = await classifyListApi();
   classifyList.value = res.data.data.map((item: any) => ({
+    classId: item._id,
     name: item.name,
     picUrl: item.picurl,
-    updateTime: parseInt(String((Date.now() - item.updateTime) / 86400000)),
+    updateTime: item.updateTime,
   }));
 };
 
