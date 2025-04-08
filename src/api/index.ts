@@ -22,7 +22,7 @@ const classifyListApi = (pageSize?: number) =>
 const classListApi = (classid: string, pageNum: number, pageSize: number) =>
   request({
     url: "/wallList",
-    data: { classid },
+    data: { classid, pageNum, pageSize },
   });
 
 export {

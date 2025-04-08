@@ -1,5 +1,8 @@
 <template>
   <view class="class-list">
+    <view class="loading" v-if="classList.length === 0 && !noData">
+      <wd-loadmore state="loading" />
+    </view>
     <view class="content">
       <view class="item" v-for="classItem in classList" :key="classItem._id">
         <navigator url="/pages/preview/preview">
@@ -23,6 +26,7 @@ import { ref } from "vue";
 
 let pageNum = 1;
 let classId = "";
+let noData = false;
 const pageSize = 12;
 onLoad((e) => {
   uni.setNavigationBarTitle({
@@ -33,7 +37,9 @@ onLoad((e) => {
 });
 
 onReachBottom(() => {
-  getClassList(classId, pageNum, pageSize);
+  if (!noData) {
+    getClassList(classId, ++pageNum, pageSize);
+  }
 });
 
 const classList = ref<any[]>([]);
@@ -44,7 +50,9 @@ const getClassList = async (
 ) => {
   const res: any = await classListApi(classId, pageNum, pageSize);
   classList.value = [...classList.value, ...res.data.data];
-  console.log(res);
+  if (res.data.data.length < pageSize) {
+    noData = true;
+  }
 };
 </script>
 
