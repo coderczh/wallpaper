@@ -10,7 +10,6 @@ declare module 'vue' {
     WdButton: typeof import('wot-design-uni/components/wd-button/wd-button.vue')['default']
     WdIcon: typeof import('wot-design-uni/components/wd-icon/wd-icon.vue')['default']
     WdImg: typeof import('wot-design-uni/components/wd-img/wd-img.vue')['default']
-    WdLoading: typeof import('wot-design-uni/components/wd-loading/wd-loading.vue')['default']
     WdLoadmore: typeof import('wot-design-uni/components/wd-loadmore/wd-loadmore.vue')['default']
     WdNoticeBar: typeof import('wot-design-uni/components/wd-notice-bar/wd-notice-bar.vue')['default']
     WdPopup: typeof import('wot-design-uni/components/wd-popup/wd-popup.vue')['default']
@@ -18,6 +17,5 @@ declare module 'vue' {
     WdSwiper: typeof import('wot-design-uni/components/wd-swiper/wd-swiper.vue')['default']
     WdTag: typeof import('wot-design-uni/components/wd-tag/wd-tag.vue')['default']
     WdText: typeof import('wot-design-uni/components/wd-text/wd-text.vue')['default']
-    WdWatermark: typeof import('wot-design-uni/components/wd-watermark/wd-watermark.vue')['default']
   }
 }

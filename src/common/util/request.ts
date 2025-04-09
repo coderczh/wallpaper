@@ -7,7 +7,7 @@ export const request = (requestOptions: RequestOptions) =>
       url: `${BASE_URL}${requestOptions.url}`,
       method: requestOptions.method || "GET",
       header: {
-        "access-key": "755056",
+        "access-key": "charles5188",
       },
       data: requestOptions.data,
       success: (res: any) => {

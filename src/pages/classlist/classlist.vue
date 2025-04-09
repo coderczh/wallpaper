@@ -5,7 +5,7 @@
     </view>
     <view class="content">
       <view class="item" v-for="classItem in classList" :key="classItem._id">
-        <navigator url="/pages/preview/preview">
+        <navigator :url="`/pages/preview/preview?id=${classItem._id}`">
           <wd-img
             width="242rpx"
             height="440rpx"
@@ -16,6 +16,10 @@
         </navigator>
       </view>
     </view>
+    <view class="loading" v-if="classList.length !== 0 || noData">
+      <wd-loadmore :state="noData ? 'finished' : 'loading'" />
+    </view>
+    <view class="safe-area-inset-bottom"></view>
   </view>
 </template>
 
@@ -53,6 +57,7 @@ const getClassList = async (
   if (res.data.data.length < pageSize) {
     noData = true;
   }
+  uni.setStorageSync("storageClassList", classList.value);
 };
 </script>
 

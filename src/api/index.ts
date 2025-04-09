@@ -19,10 +19,16 @@ const classifyListApi = (pageSize?: number) =>
     data: { pageSize: pageSize ?? 8 },
   });
 
-const classListApi = (classid: string, pageNum: number, pageSize: number) =>
+const classListApi = (classid: string, wallId: string, userScore: string) =>
   request({
     url: "/wallList",
-    data: { classid, pageNum, pageSize },
+    data: { classid, wallId, userScore },
+  });
+
+const setScore = (classid: string, wallId: number, userScore: number) =>
+  request({
+    url: "/setupScore",
+    data: { classid, wallId, userScore },
   });
 
 export {
@@ -31,4 +37,5 @@ export {
   noticeListApi,
   classifyListApi,
   classListApi,
+  setScore,
 };

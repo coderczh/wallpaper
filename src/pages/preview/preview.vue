@@ -3,9 +3,10 @@
     <view class="swiper">
       <wd-swiper
         :list="swiperList"
-        autoplay
-        :indicator="{ type: 'dots-bar' }"
+        :autoplay="false"
         :height="pageHeight"
+        v-model:current="swiperIndex"
+        @change="changeSwiper"
         @click="maskChange"
       />
     </view>
@@ -18,7 +19,11 @@
         <wd-icon name="rollback" color="#fff" size="35rpx" />
       </view>
       <view class="count">
-        <wd-text text="3 / 9" color="#fff" size="28rpx" />
+        <wd-text
+          :text="`${swiperIndex + 1}/ ${swiperList!.length}`"
+          color="#fff"
+          size="28rpx"
+        />
       </view>
       <view class="date"
         ><wd-text :text="currentDate" color="#fff" size="34rpx"
@@ -44,7 +49,7 @@
             <wd-icon name="star" size="33rpx" />
           </view>
           <view class="text"
-            ><wd-text text="5分" color="#676767" size="26rpx"
+            ><wd-text :text="`${score}分`" color="#676767" size="26rpx"
           /></view>
         </view>
         <view class="box">
@@ -77,15 +82,9 @@
                   lineHeight="1.7em"
                   color="#a7a7a7"
               /></view>
-              <view class="value"
-                ><wd-text
-                  text="dadadadasdasdde"
-                  size="28rpx"
-                  color="#676767"
-                  lineHeight="1.7em"
-              /></view>
+              <view class="value">{{ swiperInfo._id }}</view>
             </view>
-            <view class="row">
+            <!-- <view class="row">
               <view class="label"
                 ><wd-text
                   text="分类："
@@ -100,7 +99,7 @@
                   size="28rpx"
                   lineHeight="1.7em"
               /></view>
-            </view>
+            </view> -->
             <view class="row"
               ><view class="label"
                 ><wd-text
@@ -109,13 +108,8 @@
                   lineHeight="1.7em"
                   color="#a7a7a7"
               /></view>
-              <view class="value"
-                ><wd-text
-                  text="天天向上"
-                  size="28rpx"
-                  color="#676767"
-                  lineHeight="1.7em" /></view
-            ></view>
+              <view class="value">{{ swiperInfo.nickname }}</view></view
+            >
             <view class="row"
               ><view class="label"
                 ><wd-text
@@ -126,16 +120,11 @@
               /></view>
               <view class="value rate-box">
                 <view class="rate">
-                  <wd-rate v-model="rate" readonly allow-half />
+                  <wd-rate v-model="score" readonly allow-half />
                 </view>
-                <view class="score"
-                  ><wd-text
-                    text="5分"
-                    color="#676767"
-                    size="27rpx"
-                    lineHeight="1.8em"
-                /></view> </view
-            ></view>
+                <view class="score">{{ swiperInfo.score }}</view>
+              </view></view
+            >
             <view class="row"
               ><view class="label"
                 ><wd-text
@@ -146,7 +135,7 @@
               /></view>
               <view class="value"
                 ><wd-text
-                  text="摘要文字填充内容，摘要文字填充内容，摘要文字填充内容，摘要文字填充内容"
+                  :text="swiperInfo.description"
                   size="28rpx"
                   color="#676767"
                   lineHeight="1.7em" /></view
@@ -165,9 +154,9 @@
                   type="success"
                   custom-class="tag"
                   plain
-                  v-for="item in 3"
+                  v-for="tag in swiperInfo.tabs"
                 >
-                  <wd-text text="标签" color="#28b389" />
+                  <wd-text :text="tag" color="#28b389" />
                 </wd-tag>
               </view>
             </view>
@@ -209,24 +198,42 @@
 </template>
 
 <script lang="ts" setup>
+import { setScore } from "@/api";
+import { onLoad } from "@dcloudio/uni-app";
 import { computed, onMounted, ref } from "vue";
 
-const swiperList = ref<string[]>([
-  "https://uniapp-1258823864.cos.ap-shanghai.myqcloud.com/wallpaper/wallpaper/preview1.jpg",
-  "https://uniapp-1258823864.cos.ap-shanghai.myqcloud.com/wallpaper/wallpaper/preview1.jpg",
-  "https://uniapp-1258823864.cos.ap-shanghai.myqcloud.com/wallpaper/wallpaper/preview1.jpg",
-]);
+const storageClassList = uni.getStorageSync("storageClassList") ?? [];
+
+const swiperList = ref<string[]>();
+swiperList.value = storageClassList.map((classList: any) =>
+  classList.smallPicurl.replace("_small.webp", ".jpg")
+);
+
+const swiperIndex = ref<number>(0);
+const swiperInfo = ref<any>(storageClassList[swiperIndex.value]);
+
+onLoad((e) => {
+  swiperIndex.value = storageClassList.findIndex(
+    (classItem: any) => classItem._id === e!.id
+  );
+  console.log(swiperInfo.value);
+});
 
 // 获取系统信息中的窗口高度
 const pageHeight = ref<number>(0);
 onMounted(() => {
   const systemInfo = uni.getWindowInfo();
-  pageHeight.value = systemInfo.windowHeight;
+  pageHeight.value = systemInfo.screenHeight;
 });
 
 const maskStatus = ref<boolean>(true);
 const maskChange = () => {
   maskStatus.value = !maskStatus.value;
+};
+
+const changeSwiper = (e: any) => {
+  swiperIndex.value = e.current;
+  swiperInfo.value = storageClassList[swiperIndex.value];
 };
 
 const date = ref<Date>(new Date());
@@ -253,11 +260,17 @@ const showRate = () => {
   rateStatus.value = !rateStatus.value;
 };
 
-const rate = ref<number>(3);
-
-const score = ref<number>(0);
-const submitRate = () => {
-  console.log(score.value);
+const score = ref<number>(parseFloat(swiperInfo.value.score));
+const submitRate = async () => {
+  const { classid, _id: wallId } = swiperInfo.value;
+  const res: any = await setScore(classid, wallId, score.value);
+  if (res.data.errCode === 0) {
+    uni.showToast({
+      title: "评分成功",
+      icon: "success",
+    });
+  }
+  showRate;
 };
 
 const statusBarHeight = computed(
@@ -347,6 +360,9 @@ const goBack = () => uni.navigateBack();
           text-align: right;
         }
         .value {
+          font-size: 28rpx;
+          color: #676767;
+          line-height: 1.7em;
           flex: 1;
           width: 0;
           user-select: text;
