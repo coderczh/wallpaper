@@ -52,7 +52,7 @@
             ><wd-text :text="`${score}分`" color="#676767" size="26rpx"
           /></view>
         </view>
-        <view class="box">
+        <view class="box" @click="downloadPicture">
           <view class="inco">
             <wd-icon name="download1" size="33rpx" />
           </view>
@@ -204,9 +204,10 @@ import { computed, onMounted, ref } from "vue";
 
 const storageClassList = uni.getStorageSync("storageClassList") ?? [];
 
-const swiperList = ref<string[]>();
-swiperList.value = storageClassList.map((classList: any) =>
-  classList.smallPicurl.replace("_small.webp", ".jpg")
+const swiperList = ref<string[]>(
+  storageClassList.map((classList: any) =>
+    classList.smallPicurl.replace("_small.webp", ".jpg")
+  )
 );
 
 const swiperIndex = ref<number>(0);
@@ -278,6 +279,23 @@ const statusBarHeight = computed(
 );
 
 const goBack = () => uni.navigateBack();
+
+const downloadPicture = () => {
+  uni.getImageInfo({
+    src: swiperList.value[swiperIndex.value],
+    success: (res) => {
+      uni.saveImageToPhotosAlbum({
+        filePath: res.path,
+        success: () => {
+          uni.showToast({
+            title: "保存成功",
+            icon: "success",
+          });
+        },
+      });
+    },
+  });
+};
 </script>
 
 <style lang="scss" scoped>

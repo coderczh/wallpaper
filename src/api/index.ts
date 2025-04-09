@@ -19,10 +19,10 @@ const classifyListApi = (pageSize?: number) =>
     data: { pageSize: pageSize ?? 8 },
   });
 
-const classListApi = (classid: string, wallId: string, userScore: string) =>
+const classListApi = (classid: string, pageNum: number, pageSize: number) =>
   request({
     url: "/wallList",
-    data: { classid, wallId, userScore },
+    data: { classid, pageNum, pageSize },
   });
 
 const setScore = (classid: string, wallId: number, userScore: number) =>
