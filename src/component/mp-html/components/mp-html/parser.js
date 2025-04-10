@@ -75,13 +75,9 @@ const config = {
     foreignobject: 'foreignObject'
   }
 }
-const tagSelector={}
-const {
-  windowWidth,
-  // #ifdef MP-WEIXIN
-  system
-  // #endif
-} = uni.getSystemInfoSync()
+const tagSelector={} 
+const { windowWidth } = uni.getWindowInfo()
+const { system } = uni.getDeviceInfo()
 const blankChar = makeMap(' ,\r,\n,\t,\f')
 let idIndex = 0
 
