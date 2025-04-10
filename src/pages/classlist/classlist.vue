@@ -25,18 +25,25 @@
 
 <script lang="ts" setup>
 import { classListApi } from "@/api";
-import { onLoad, onReachBottom } from "@dcloudio/uni-app";
+import {
+  onLoad,
+  onReachBottom,
+  onShareAppMessage,
+  onShareTimeline,
+} from "@dcloudio/uni-app";
 import { ref } from "vue";
 
 let pageNum = 1;
 let classId = "";
 let noData = false;
 const pageSize = 12;
+let className = "";
 onLoad((e) => {
   uni.setNavigationBarTitle({
     title: e!.name,
   });
   classId = e!.classId;
+  className = e!.name;
   getClassList(classId, pageNum, pageSize);
 });
 
@@ -59,6 +66,16 @@ const getClassList = async (
   }
   uni.setStorageSync("storageClassList", classList.value);
 };
+
+onShareAppMessage(() => ({
+  title: className,
+  path: `/pages/classlist/classlist?id=${classId}&name=${className}`,
+}));
+
+onShareTimeline(() => ({
+  title: className,
+  query: `id=${classId}&name=${className}`,
+}));
 </script>
 
 <style lang="scss" scoped>

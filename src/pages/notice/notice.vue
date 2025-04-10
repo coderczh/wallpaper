@@ -1,31 +1,40 @@
 <template>
   <view class="layout">
     <view class="title">
-      <view class="tag"><wd-tag type="danger" mark plain>置顶</wd-tag></view>
-      <view class="font">这个区域写标题</view>
+      <view class="tag"
+        ><wd-tag type="danger" mark plain>{{
+          detail.select ? "置顶" : "公告"
+        }}</wd-tag></view
+      >
+      <view class="font">{{ detail.title }}</view>
     </view>
     <view class="info">
-      <view class="item">天天向上</view>
-      <view class="item">{{ dateTime }}</view>
+      <view class="item">{{ detail?.author }}</view>
+      <view class="item">{{ formatDateTime(detail?.publish_date) }}</view>
     </view>
-    <view class="content">内容区域</view>
-    <view class="count">阅读 8878</view>
+    <view class="content">
+      <mp-html :content="detail?.content"></mp-html>
+    </view>
+    <view class="count">阅读 {{ detail?.view_count }}</view>
   </view>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { noticeDetailApi } from "@/api";
+import { formatDateTime } from "@/common/util/date";
+import { onLoad } from "@dcloudio/uni-app";
+import { reactive } from "vue";
+import mpHtml from "@/component/mp-html/components/mp-html/mp-html.vue";
 
-const now = new Date();
-const dateTime = ref<string>(
-  `${now.getFullYear()}-${(now.getMonth() + 1)
-    .toString()
-    .padStart(2, "0")}-${now.getDate().toString().padStart(2, "0")} ` +
-    `${now.getHours().toString().padStart(2, "0")}:${now
-      .getMinutes()
-      .toString()
-      .padStart(2, "0")}:${now.getSeconds().toString().padStart(2, "0")}`
-);
+onLoad((e) => {
+  getNoticeDetail(e!.id);
+});
+
+const detail = reactive<any>({});
+const getNoticeDetail = async (id: string) => {
+  const res = await noticeDetailApi(id);
+  Object.assign(detail, res.data.data);
+};
 </script>
 
 <style lang="scss" scoped>

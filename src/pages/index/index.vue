@@ -90,6 +90,7 @@ import {
   scrollListApi,
   swiperListApi,
 } from "@/api/index";
+import { onShareAppMessage, onShareTimeline } from "@dcloudio/uni-app";
 
 onMounted(() => {
   getSwiperList();
@@ -110,9 +111,11 @@ const getScrollList = async () => {
   scrollList.value = res.data.data;
 };
 
+let noticeInfo: any = [];
 const noticeList = ref<string[]>([]);
 const getNoticeList = async () => {
   const res: any = await noticeListApi();
+  noticeInfo = res.data.data;
   noticeList.value = res.data.data.map((item: any) => item.title);
 };
 
@@ -132,13 +135,26 @@ const setTextIndex = (index: number) => {
   textIndex.value = index;
 };
 
-const clickNotice = () => uni.navigateTo({ url: "/pages/notice/notice" });
+const clickNotice = () => {
+  uni.navigateTo({
+    url: `/pages/notice/notice?id=${noticeInfo[textIndex.value]._id}`,
+  });
+};
 
 const currentDate = ref(
   new Date().getDate().toString().padStart(2, "0") + "号"
 );
 
 const goPreview = () => uni.navigateTo({ url: "/pages/preview/preview" });
+
+onShareAppMessage(() => ({
+  title: "壁纸小程序",
+  path: "/pages/index/index",
+}));
+
+onShareTimeline(() => ({
+  title: "壁纸小程序",
+}));
 </script>
 
 <style lang="scss" scoped>

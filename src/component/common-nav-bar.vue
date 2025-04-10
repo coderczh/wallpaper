@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from "vue";
+import { computed } from "vue";
 
 const statusBarHeight = computed(
   () => uni.getWindowInfo().statusBarHeight || 0

@@ -1,5 +1,6 @@
 <template>
   <view class="global">
+    <view :style="{ height: `${fillHeight}px` }"></view>
     <!-- 顶部 -->
     <view class="user-info">
       <view class="avatar">
@@ -12,17 +13,25 @@
         />
       </view>
       <view class="ip">
-        <wd-text text="192.168.1.23" size="35rpx" color="#333" />
+        <wd-text :text="userInfo.IP" size="35rpx" color="#333" />
       </view>
       <view class="nickname">
-        <wd-text text="来自于：合肥" size="28rpx" color="#aaa" />
+        <wd-text
+          :text="`来自于：${
+            userInfo.address?.city ||
+            userInfo.address?.province ||
+            userInfo.address?.country
+          }`"
+          size="28rpx"
+          color="#aaa"
+        />
       </view>
     </view>
     <!-- 导航栏1 -->
     <view class="selection">
       <view class="list">
         <!-- 我的下载 -->
-        <navigator url="/pages/classlist/classlist">
+        <navigator url="/pages/classlist/classlist?name=我的评分">
           <view class="row">
             <view class="left">
               <view class="icon"
@@ -34,7 +43,10 @@
             </view>
             <view class="right">
               <view class="text">
-                <wd-text text="33" size="25rpx" color="#aaa"
+                <wd-text
+                  :text="userInfo?.downloadSize"
+                  size="25rpx"
+                  color="#aaa"
               /></view>
               <view class="icon"
                 ><wd-icon name="chevron-right" size="15" color="#aaa"
@@ -55,7 +67,7 @@
             </view>
             <view class="right">
               <view class="text">
-                <wd-text text="33" size="25rpx" color="#aaa"
+                <wd-text :text="userInfo?.scoreSize" size="25rpx" color="#aaa"
               /></view>
               <view class="icon"
                 ><wd-icon name="chevron-right" size="15" color="#aaa"
@@ -74,9 +86,6 @@
             </view>
           </view>
           <view class="right">
-            <!-- <view class="text">
-            <wd-text text="33" size="25rpx" color="#aaa"
-          /></view> -->
             <view class="icon"
               ><wd-icon name="chevron-right" size="15" color="#aaa"
             /></view>
@@ -108,9 +117,6 @@
             </view>
           </view>
           <view class="right">
-            <!-- <view class="text">
-            <wd-text text="33" size="25rpx" color="#aaa"
-          /></view> -->
             <view class="icon"
               ><wd-icon name="chevron-right" size="15" color="#aaa"
             /></view>
@@ -127,9 +133,6 @@
             </view>
           </view>
           <view class="right">
-            <!-- <view class="text">
-            <wd-text text="33" size="25rpx" color="#aaa"
-          /></view> -->
             <view class="icon"
               ><wd-icon name="chevron-right" size="15" color="#aaa"
             /></view>
@@ -138,9 +141,38 @@
       </view>
     </view>
   </view>
+  <view class="loading" v-if="userInfo === undefined">
+    <view :style="{ height: `${fillHeight}px` }"></view>
+    <wd-loadmore state="loading" />
+  </view>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { userInfoApi } from "@/api";
+import { onLoad } from "@dcloudio/uni-app";
+import { computed, reactive } from "vue";
+
+onLoad(() => {
+  getUserInfo();
+});
+
+// 获取系统信息中的窗口高度
+const statusBarHeight = computed(
+  () => uni.getWindowInfo().statusBarHeight || 0
+);
+const titleBarHeight = computed(() => {
+  const { top, height } = uni.getMenuButtonBoundingClientRect();
+  return height + (top - statusBarHeight.value) * 2;
+});
+const fillHeight = computed(() => titleBarHeight.value + statusBarHeight.value);
+
+const userInfo = reactive<any>({});
+
+const getUserInfo = async () => {
+  const res = await userInfoApi();
+  Object.assign(userInfo, res.data.data);
+};
+</script>
 
 <style lang="scss" scoped>
 .user-info {

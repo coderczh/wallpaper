@@ -1,4 +1,3 @@
-import { BASE_URL } from "@/common/constant";
 import request from "@/common/util/request";
 
 const swiperListApi = () => request({ url: "/homeBanner" });
@@ -31,6 +30,23 @@ const setScore = (classid: string, wallId: number, userScore: number) =>
     data: { classid, wallId, userScore },
   });
 
+const recordDownloadApi: any = (classid: string, wallId: string) =>
+  request({
+    url: "/downloadWall",
+    data: { classid, wallId },
+  });
+
+const userInfoApi: any = () =>
+  request({
+    url: "/userInfo",
+  });
+
+const noticeDetailApi: any = (id: string) =>
+  request({
+    url: "/wallNewsDetail",
+    data: { id },
+  });
+
 export {
   swiperListApi,
   scrollListApi,
@@ -38,4 +54,7 @@ export {
   classifyListApi,
   classListApi,
   setScore,
+  recordDownloadApi,
+  userInfoApi,
+  noticeDetailApi,
 };

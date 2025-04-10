@@ -154,7 +154,8 @@
                   type="success"
                   custom-class="tag"
                   plain
-                  v-for="tag in swiperInfo.tabs"
+                  v-for="(tag, index) in swiperInfo.tabs"
+                  :key="index"
                 >
                   <wd-text :text="tag" color="#28b389" />
                 </wd-tag>
@@ -195,13 +196,18 @@
       </view>
     </wd-popup>
   </view>
+  <wd-toast />
+  <wd-message-box />
 </template>
 
 <script lang="ts" setup>
-import { setScore } from "@/api";
+import { recordDownloadApi, setScore } from "@/api";
 import { onLoad } from "@dcloudio/uni-app";
 import { computed, onMounted, ref } from "vue";
+import { useMessage, useToast } from "wot-design-uni";
 
+const toast = useToast();
+const message = useMessage();
 const storageClassList = uni.getStorageSync("storageClassList") ?? [];
 
 const swiperList = ref<string[]>(
@@ -217,7 +223,6 @@ onLoad((e) => {
   swiperIndex.value = storageClassList.findIndex(
     (classItem: any) => classItem._id === e!.id
   );
-  console.log(swiperInfo.value);
 });
 
 // 获取系统信息中的窗口高度
@@ -266,10 +271,7 @@ const submitRate = async () => {
   const { classid, _id: wallId } = swiperInfo.value;
   const res: any = await setScore(classid, wallId, score.value);
   if (res.data.errCode === 0) {
-    uni.showToast({
-      title: "评分成功",
-      icon: "success",
-    });
+    toast.success("评分成功");
   }
   showRate;
 };
@@ -280,21 +282,50 @@ const statusBarHeight = computed(
 
 const goBack = () => uni.navigateBack();
 
-const downloadPicture = () => {
-  uni.getImageInfo({
-    src: swiperList.value[swiperIndex.value],
-    success: (res) => {
-      uni.saveImageToPhotosAlbum({
-        filePath: res.path,
-        success: () => {
-          uni.showToast({
-            title: "保存成功",
-            icon: "success",
-          });
-        },
-      });
-    },
-  });
+const downloadPicture = async () => {
+  try {
+    toast.loading("下载中...");
+    const { classid, _id: wallId } = swiperInfo.value;
+    const res = await recordDownloadApi(classid, wallId);
+    if (res.data.errCode !== 0) {
+      return;
+    }
+    uni.getImageInfo({
+      src: swiperList.value[swiperIndex.value],
+      success: (res) => {
+        uni.saveImageToPhotosAlbum({
+          filePath: res.path,
+          success: () => {
+            toast.success("保存成功");
+          },
+          fail: (err) => {
+            if (err.errMsg === "saveImageToPhotosAlbum:fail cancel") {
+              toast.warning("保存失败，请重新点击下载");
+              return;
+            }
+            message
+              .confirm({
+                title: "提示",
+                msg: "需要授权保存相册权限",
+              })
+              .then(() => {
+                uni.openSetting({
+                  success: (res) => {
+                    if (res.authSetting["scope.writePhotosAlbum"]) {
+                      toast.success("授权成功");
+                    } else {
+                      toast.error("授权失败");
+                    }
+                  },
+                });
+              });
+          },
+        });
+      },
+    });
+  } finally {
+    toast.close();
+  }
 };
 </script>
 
