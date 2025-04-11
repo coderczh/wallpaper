@@ -41,13 +41,16 @@ const getNoticeDetail = async (id: string) => {
 .layout {
   padding: 30rpx;
   .title {
-    font-size: 40rpx;
+    font-size: 30rpx;
     color: #111;
     line-height: 1.6em;
     padding-bottom: 30rpx;
     display: flex;
     .font {
       padding-left: 6rpx;
+    }
+    .tag {
+      width: 80rpx;
     }
   }
   .info {
